@@ -13,10 +13,10 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: Dexarc/DevSecOps-GCP@v2
 
       - name: Set up Docker
-        uses: docker/setup-docker@v2
+        uses: Dexarc/DevSecOps-GCP@v3
         with:
           dockerfile: app/Dockerfile
           context: .
