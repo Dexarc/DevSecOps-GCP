@@ -26,7 +26,7 @@ jobs:
           PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           GCP_SERVICE_ACCOUNT_KEY: ${{ secrets.GCP_SA_KEY }}
         run: |
-          docker login -u _json_key --password-stdin https://gcr.io < $GCP_SERVICE_ACCOUNT_KEY
+          echo "$GCP_SERVICE_ACCOUNT_KEY" | docker login -u _json_key --password-stdin https://gcr.io
           docker build -t gcr.io/$PROJECT_ID/your-node-app:$GITHUB_SHA ./app
           docker push gcr.io/$PROJECT_ID/your-node-app:$GITHUB_SHA
 
