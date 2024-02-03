@@ -4,13 +4,6 @@ provider "google" {
   region      = "us-central1"
 }
 
-# Specify the Google Cloud provider
-provider "google" {
-  credentials = file("service-account-key.json")
-  project     = var.gcp_project
-  region      = "us-central1"  # Adjust the region as needed
-}
-
 # Enable Compute Engine API
 resource "google_project_service" "compute_engine" {
   project = var.gcp_project
