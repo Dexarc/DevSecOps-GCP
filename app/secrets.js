@@ -23,4 +23,5 @@ async function loadDatabaseSecrets() {
   };
 }
 
-module.exports = await loadDatabaseSecrets();
+// Exporting the asynchronous function itself, not the result of its execution
+module.exports = loadDatabaseSecrets;
