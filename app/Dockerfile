@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Expose port 3000
-EXPOSE 3000
+EXPOSE 8080
 
 # Run the application with secrets using start-with-secrets.js
 CMD ["node", "start-with-secrets.js"]

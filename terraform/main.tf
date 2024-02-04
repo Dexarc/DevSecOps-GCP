@@ -1,7 +1,12 @@
 provider "google" {
-#   credentials = file("service-account-key.json")
+  credentials = var.service_account_key_file
   project     = var.gcp_project
   region      = "us-central1"
+}
+
+resource "google_project_service" "cloud_resource_manager" {
+  project = var.gcp_project
+  service = "cloudresourcemanager.googleapis.com"
 }
 
 # Enable Compute Engine API
@@ -59,7 +64,7 @@ resource "google_sql_database_instance" "cloud_sql_instance" {
 # Create a Cloud SQL database
 resource "google_sql_database" "cloud_database" {
   name     = "my-database"
-  instance = google_sql_database_instance.your_database.name
+  instance = google_sql_database_instance.cloud_sql_instance.name
 }
 
 # Create Secret Manager Secret
@@ -92,6 +97,9 @@ resource "google_cloud_run_service" "cloud_run_service" {
     spec {
       containers {
         image = "gcr.io/${var.gcp_project}/your-node-app:latest"
+        ports {
+          container_port = 3000
+        }
       }
     }
   }

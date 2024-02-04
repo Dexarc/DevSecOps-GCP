@@ -3,7 +3,7 @@ import { getSecret } from './secrets'; // Adjust the path as needed
 import mysql from 'mysql2/promise';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 export async function startApp(cloudSQLConnectionString, dbUser, dbPassword, dbName) {
   try {

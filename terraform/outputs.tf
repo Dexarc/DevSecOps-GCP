@@ -5,7 +5,7 @@ output "cloud_run_url" {
 
 output "cloud_sql_connection_name" {
   description = "Connection name for Cloud SQL"
-  value       = google_sql_database_instance.cloud_database.connection_name
+  value       = google_sql_database_instance.cloud_sql_instance.connection_name
 }
 
 output "cloud_sql_database_name" {
@@ -15,5 +15,5 @@ output "cloud_sql_database_name" {
 
 output "cloud_sql_instance_ip" {
   description = "Public IP address of the Cloud SQL instance"
-  value       = google_sql_database_instance.cloud_database.ip_address
+  value       = google_sql_database_instance.cloud_sql_instance.ip_address
 }
