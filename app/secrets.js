@@ -9,9 +9,9 @@ async function getSecret(name) {
 
 async function loadDatabaseSecrets() {
   // Replace these values with your actual GitHub secret names
-  const githubSecretProjectId = process.env.GCP_PROJECT_ID || 'GCP_PROJECT_ID';
-  const databaseHostSecret = `projects/${githubSecretProjectId}/secrets/your-database-host/versions/1`;
-  const databasePasswordSecret = `projects/${githubSecretProjectId}/secrets/your-database-password/versions/1`;
+  // const githubSecretProjectId = process.env.GCP_PROJECT_ID || 'GCP_PROJECT_ID';
+  const databaseHostSecret = `projects/named-archway-413111/secrets/your-database-host/versions/1`;
+  const databasePasswordSecret = `projects/named-archway-413111/secrets/your-database-password/versions/1`;
 
   return {
     database: {
