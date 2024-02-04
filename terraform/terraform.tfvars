@@ -15,5 +15,5 @@ service_account_key_file = <<SERVICE_ACCOUNT_KEY_FILE
 }
 SERVICE_ACCOUNT_KEY_FILE
 
-db_username = "dexarc"
+# connection_string = 
 db_password = "dex123"

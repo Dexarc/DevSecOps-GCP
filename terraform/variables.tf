@@ -1,5 +1,5 @@
-variable "db_username" {
-  description = "Database username"
+variable "connection_string" {
+  description = "Database Connection String"
 }
 
 variable "db_password" {

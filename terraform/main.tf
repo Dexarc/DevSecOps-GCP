@@ -86,13 +86,17 @@ resource "google_secret_manager_secret" "app_secrets" {
 }
 
 # Add secret versions to Secret Manager
-resource "google_secret_manager_secret_version" "app_secrets_version" {
+resource "google_secret_manager_secret_version" "app_secrets_password" {
   secret = google_secret_manager_secret.app_secrets.id
-  secret_data = jsonencode({
-    db_username = var.db_username,
-    db_password = var.db_password,
-  })
+  secret_data = var.db_password
 }
+
+# Add secret versions to Secret Manager
+resource "google_secret_manager_secret_version" "app_secrets_connection_string" {
+  secret = google_secret_manager_secret.app_secrets.id
+  secret_data = var.connection_string
+}
+
 # Create Cloud Run service
 resource "google_cloud_run_service" "cloud_run_service" {
   name     = "my-cloud-run-service"

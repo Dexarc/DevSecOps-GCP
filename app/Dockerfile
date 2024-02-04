@@ -1,20 +1,20 @@
-# Use an official Node.js runtime as a parent image
+# Use the official Node.js image as the base image
 FROM node:14
 
-# Set the working directory to /app
+# Set the working directory inside the container
 WORKDIR /app
 
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
-# Install application dependencies
+# Install the application dependencies
 RUN npm install
 
-# Bundle app source
+# Copy the rest of the application code to the working directory
 COPY . .
 
-# Expose port 3000
+# Expose the port on which the application will run
 EXPOSE 8080
 
-# Run the application with secrets using start-with-secrets.js
-CMD ["node", "start-with-secrets.js"]
+# Command to run the application
+CMD ["node", "index.js"]

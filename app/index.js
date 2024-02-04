@@ -1,43 +1,36 @@
-import express from 'express';
-import { getSecret } from './secrets'; // Adjust the path as needed
-import mysql from 'mysql2/promise';
+const express = require('express');
+const { database } = require('./secret');
+const mysql = require('mysql2/promise');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-export async function startApp(cloudSQLConnectionString, dbUser, dbPassword, dbName) {
+// Create a MySQL connection pool
+const pool = mysql.createPool({
+  host: database.host,
+  user: database.user,
+  password: database.password,
+  database: database.database,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+});
+
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+// Example REST API endpoint to retrieve data from the database
+app.get('/api/data', async (req, res) => {
   try {
-    // Create a connection pool
-    const pool = mysql.createPool({
-      host: cloudSQLConnectionString,
-      user: dbUser,
-      password: dbPassword,
-      database: dbName,
-    });
-
-    // REST API endpoint to fetch data from Cloud SQL
-    app.get('/api/data', async (req, res) => {
-      try {
-        // Query data from the database
-        const [rows] = await pool.query('SELECT * FROM your_table_name');
-
-        // Send the fetched data as JSON response
-        res.json(rows);
-      } catch (error) {
-        console.error('Error fetching data from Cloud SQL:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
-    });
-
-    // Start the server
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
+    const [rows] = await pool.execute('SELECT * FROM your_table_name');
+    res.json({ data: rows });
   } catch (error) {
-    console.error('Error starting the application:', error);
-    process.exit(1);
+    console.error('Error fetching data from the database:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-}
+});
 
-// If you want to start the application without secrets, you can still use this function
-// startApp();
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
