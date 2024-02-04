@@ -1,3 +1,4 @@
+// secrets.js
 const { SecretManagerServiceClient } = require('@google-cloud/secret-manager');
 
 async function getSecret(name) {
@@ -13,13 +14,13 @@ async function loadDatabaseSecrets() {
   const databasePasswordSecret = `projects/${githubSecretProjectId}/secrets/your-database-password/versions/1`;
 
   return {
-    host: await getSecret(databaseHostSecret),
-    user: "dexarc",
-    password: await getSecret(databasePasswordSecret),
-    database: "New",
+    database: {
+      host: await getSecret(databaseHostSecret),
+      user: "dexarc",
+      password: await getSecret(databasePasswordSecret),
+      database: "New",
+    },
   };
 }
 
-module.exports = {
-  database: await loadDatabaseSecrets(),
-};
+module.exports = await loadDatabaseSecrets();
