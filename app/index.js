@@ -2,7 +2,6 @@
 const express = require('express');
 const loadDatabaseSecrets = require('./secrets.js'); // Assuming loadDatabaseSecrets is the correct function to call
 const mysql = require('mysql2/promise');
-server.keepAliveTimeout = 30000;
 
 async function startServer() {
   try {
