@@ -4,7 +4,7 @@ FROM node:16
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Copy the app directory into the container
+# Copy the contents of the app directory into the container
 COPY app/ .
 
 # Install app dependencies
