@@ -15,22 +15,22 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Clean code
-        run: |
-          sudo apt-get remove docker docker-engine docker.io containerd containerd.io
-          sudo apt-get autoclean
-          sudo apt-get autoremove
-          sudo dpkg --configure -a
-          sudo apt-get update
-          dpkg --get-selections | grep hold
-          sudo apt-get install --reinstall containerd.io
-          sudo apt-get install -y \
-              apt-transport-https \
-              ca-certificates \
-              curl \
-              gnupg \
-              lsb-release
-          sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+      # - name: Clean code
+      #   run: |
+      #     sudo apt-get remove docker docker-engine docker.io containerd containerd.io
+      #     sudo apt-get autoclean
+      #     sudo apt-get autoremove
+      #     sudo dpkg --configure -a
+      #     sudo apt-get update
+      #     dpkg --get-selections | grep hold
+      #     sudo apt-get install --reinstall containerd.io
+      #     sudo apt-get install -y \
+      #         apt-transport-https \
+      #         ca-certificates \
+      #         curl \
+      #         gnupg \
+      #         lsb-release
+      #     sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 
       - name: Set up Docker Buildx
         run: |
