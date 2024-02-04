@@ -7,30 +7,35 @@ provider "google" {
 resource "google_project_service" "cloud_resource_manager" {
   project = var.gcp_project
   service = "cloudresourcemanager.googleapis.com"
+  disable_on_destroy = false
 }
 
 # Enable Compute Engine API
 resource "google_project_service" "compute_engine" {
   project = var.gcp_project
   service = "compute.googleapis.com"
+  disable_on_destroy = false
 }
 
 # Enable Cloud SQL API
 resource "google_project_service" "sql" {
   project = var.gcp_project
   service = "sqladmin.googleapis.com"
+  disable_on_destroy = false
 }
 
 # Enable Cloud Run API
 resource "google_project_service" "cloud_run" {
   project = var.gcp_project
   service = "run.googleapis.com"
+  disable_on_destroy = false
 }
 
 # Enable Secret Manager API
 resource "google_project_service" "secret_manager" {
   project = var.gcp_project
   service = "secretmanager.googleapis.com"
+  disable_on_destroy = false
 }
 
 # Create VPC network
@@ -67,6 +72,7 @@ resource "google_sql_database" "cloud_database" {
   instance = google_sql_database_instance.cloud_sql_instance.name
 }
 
+
 # Create Secret Manager Secret
 resource "google_secret_manager_secret" "app_secrets" {
   secret_id = "my-app-secrets"
@@ -97,11 +103,8 @@ resource "google_cloud_run_service" "cloud_run_service" {
     spec {
       containers {
         image = "gcr.io/${var.gcp_project}/your-node-app:latest"
-        ports {
-          container_port = 3000
-        }
       }
-    }
+    }  
   }
 
   traffic {
