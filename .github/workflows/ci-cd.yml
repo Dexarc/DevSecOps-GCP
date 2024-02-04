@@ -44,6 +44,7 @@ jobs:
         run: npm install
 
       - name: Run tests
+        working-directory: app/
         run: npm test
 
       - name: Build and Push Docker Image with Latest Tag
