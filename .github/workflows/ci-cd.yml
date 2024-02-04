@@ -15,11 +15,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Clean code
-        run: |
-          sudo apt-get remove docker docker-engine docker.io containerd containerd.io
-          sudo apt-get autoclean
-          sudo apt-get autoremove
+      # - name: Clean code
+      #   run: |
+      #     sudo apt-get remove docker docker-engine docker.io containerd containerd.io
+      #     sudo apt-get autoclean
+      #     sudo apt-get autoremove
 
       # - name: Set up Docker Buildx
       #   run: |
