@@ -1,5 +1,5 @@
 const express = require('express');
-const { database } = require('./secret');
+const { database } = require('./secrets.js');
 const mysql = require('mysql2/promise');
 
 const app = express();
