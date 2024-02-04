@@ -15,6 +15,7 @@ async function startServer() {
       user,
       password,
       database,
+      port: 8080,
       waitForConnections: true,
       connectionLimit: 10,
       queueLimit: 0,
