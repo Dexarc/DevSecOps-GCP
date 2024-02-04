@@ -3,6 +3,9 @@
     "version": "1.0.0",
     "description": "Your Node.js Application Description",
     "main": "index.js",
+    "engines": {
+      "node": "16.x"
+    },
     "scripts": {
       "start": "node index.js",
       "test": "echo 'No tests available'"
