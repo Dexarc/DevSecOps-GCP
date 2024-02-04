@@ -27,7 +27,7 @@ async function startServer() {
     app.use(express.json());
 
     // Example REST API endpoint to retrieve data from the database
-    app.get('/api/data', async (req, res) => {
+    app.get('/', async (req, res) => {
       try {
         const [rows] = await pool.execute('SELECT * FROM entries');
         res.json({ data: rows });
