@@ -21,14 +21,27 @@ jobs:
           dockerfile: app/Dockerfile
           context: .
 
-      - name: Build and Push Docker Image
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build and Push Docker Image with Latest Tag
         env:
           PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           GCP_SERVICE_ACCOUNT_KEY: ${{ secrets.GCP_SA_KEY }}
         run: |
           echo "$GCP_SERVICE_ACCOUNT_KEY" | docker login -u _json_key --password-stdin https://gcr.io
-          docker build -t gcr.io/$PROJECT_ID/your-node-app:$GITHUB_SHA ./app
+          docker build -t gcr.io/$PROJECT_ID/your-node-app:latest -t gcr.io/$PROJECT_ID/your-node-app:$GITHUB_SHA ./app
+          docker push gcr.io/$PROJECT_ID/your-node-app:latest
           docker push gcr.io/$PROJECT_ID/your-node-app:$GITHUB_SHA
+          
 
   # terraform_apply:
   #   needs: build_and_push_docker_image
@@ -60,8 +73,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set up Google Cloud CLI
-        uses: google-github-actions/setup-gcloud@master
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.4.0
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
@@ -79,3 +92,4 @@ jobs:
             --platform managed \
             --region us-central1 \
             --allow-unauthenticated
+ 
