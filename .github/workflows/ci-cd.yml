@@ -17,9 +17,9 @@ jobs:
 
       - name: Clean code
         run: |
-          sudo apt-get remove containerd.io
-          sudo apt install docker.io docker-compose -y
-          systemctl start docker
+          sudo apt-get remove docker docker-engine docker.io containerd containerd.io
+          sudo apt-get autoclean
+          sudo apt-get autoremove
 
       - name: Set up Docker Buildx
         run: |
