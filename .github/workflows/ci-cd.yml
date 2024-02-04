@@ -89,7 +89,7 @@ jobs:
           docker tag gcr.io/$PROJECT_ID/your-node-app:$GITHUB_SHA gcr.io/$PROJECT_ID/your-node-app:latest
           gcloud run deploy your-node-app \
             --image gcr.io/$PROJECT_ID/your-node-app:latest \
-            --platform managed \
+            --platform linux/amd64 \
             --region us-central1 \
             --allow-unauthenticated
  

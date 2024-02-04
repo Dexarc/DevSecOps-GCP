@@ -13,8 +13,8 @@ RUN npm install
 # Copy the rest of the application code to the working directory
 COPY . .
 
-# # Expose the port on which the application will run
-# EXPOSE 8080
+# Expose the port on which the application will run
+EXPOSE 8080
 
 # Command to run the application
 CMD ["node", "index.js"]
