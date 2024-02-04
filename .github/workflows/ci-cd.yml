@@ -53,6 +53,8 @@ jobs:
           echo "$GCP_SERVICE_ACCOUNT_KEY" | docker login -u _json_key --password-stdin https://gcr.io
           docker buildx create --use
           docker buildx build --platform linux/amd64 -t gcr.io/$PROJECT_ID/your-node-app:latest -t gcr.io/$PROJECT_ID/your-node-app:$GITHUB_SHA --output type=registry -f app/Dockerfile ./app
+          docker tag gcr.io/$PROJECT_ID/your-node-app:latest gcr.io/$PROJECT_ID/your-node-app:latest
+          docker tag gcr.io/$PROJECT_ID/your-node-app:$GITHUB_SHA gcr.io/$PROJECT_ID/your-node-app:$GITHUB_SHA
           docker push gcr.io/$PROJECT_ID/your-node-app:latest
           docker push gcr.io/$PROJECT_ID/your-node-app:$GITHUB_SHA
           
