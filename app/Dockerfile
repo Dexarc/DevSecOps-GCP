@@ -5,7 +5,7 @@ FROM node:16
 WORKDIR /usr/src/app
 
 # Copy the contents of the app directory into the container
-COPY app/ .
+COPY . .
 
 # Install app dependencies
 RUN npm install
