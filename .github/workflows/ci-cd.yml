@@ -21,12 +21,12 @@ jobs:
           sudo apt-get autoclean
           sudo apt-get autoremove
 
-      - name: Set up Docker Buildx
-        run: |
-          sudo apt-get update -qy
-          sudo apt-get install -y docker.io
-          docker version
-          docker buildx version
+      # - name: Set up Docker Buildx
+      #   run: |
+      #     sudo apt-get update -qy
+      #     sudo apt-get install -y docker.io
+      #     docker version
+      #     docker buildx version
 
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
@@ -51,15 +51,10 @@ jobs:
           GCP_SERVICE_ACCOUNT_KEY: ${{ secrets.GCP_SA_KEY }}
         run: |
           echo "$GCP_SERVICE_ACCOUNT_KEY" | docker login -u _json_key --password-stdin https://gcr.io
-          docker buildx create --use
-          docker buildx build --platform linux/amd64 -t gcr.io/$PROJECT_ID/your-node-app:latest -t gcr.io/$PROJECT_ID/your-node-app:$GITHUB_SHA --output type=registry ./app
-          docker pull gcr.io/$PROJECT_ID/your-node-app:latest
-          docker tag gcr.io/$PROJECT_ID/your-node-app:latest gcr.io/$PROJECT_ID/your-node-app:latest
-          docker tag gcr.io/$PROJECT_ID/your-node-app:$GITHUB_SHA gcr.io/$PROJECT_ID/your-node-app:$GITHUB_SHA
+          docker build --platform linux/amd64 -t gcr.io/$PROJECT_ID/your-node-app:latest -t gcr.io/$PROJECT_ID/your-node-app:$GITHUB_SHA ./app
           docker push gcr.io/$PROJECT_ID/your-node-app:latest
           docker push gcr.io/$PROJECT_ID/your-node-app:$GITHUB_SHA
           
-
   # terraform_apply:
   #   needs: build_and_push_docker_image
   #   runs-on: ubuntu-latest
