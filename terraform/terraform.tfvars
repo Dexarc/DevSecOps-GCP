@@ -1,3 +1,4 @@
+# db_paswword = ""
 gcp_project = "named-archway-413111"
 service_account_key_file = <<SERVICE_ACCOUNT_KEY_FILE
 {
@@ -14,6 +15,3 @@ service_account_key_file = <<SERVICE_ACCOUNT_KEY_FILE
   "universe_domain": "googleapis.com"
 }
 SERVICE_ACCOUNT_KEY_FILE
-
-# connection_string = 
-db_password = "dex123"

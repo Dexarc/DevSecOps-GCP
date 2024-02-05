@@ -66,6 +66,16 @@ resource "google_sql_database_instance" "cloud_sql_instance" {
   }
 }
 
+data "google_secret_manager_secret_version" "sql_password" {
+ secret   = "your-database-password"
+}
+
+resource "google_sql_user" "users" {
+  name     = "dexarc"
+  instance = google_sql_database_instance.cloud_sql_instance.name
+  password = data.google_secret_manager_secret_version.sql_password.secret_data
+}
+
 # Create a Cloud SQL database
 resource "google_sql_database" "cloud_database" {
   name     = "my-database"
@@ -73,29 +83,24 @@ resource "google_sql_database" "cloud_database" {
 }
 
 
-# Create Secret Manager Secret
-resource "google_secret_manager_secret" "app_secrets" {
-  secret_id = "my-app-secrets"
-   labels = {
-    my-key = "my-value"
-  }
-  replication {
-    auto {
-    }
-  }
-}
+# # Create Secret Manager Secret
+# resource "google_secret_manager_secret" "app_secrets" {
+#   secret_id = "my-app-secrets"
+#    labels = {
+#     my-key = "my-value"
+#   }
+#   replication {
+#     auto {
+#     }
+#   }
+# }
 
-# Add secret versions to Secret Manager
-resource "google_secret_manager_secret_version" "app_secrets_password" {
-  secret = google_secret_manager_secret.app_secrets.id
-  secret_data = var.db_password
-}
+# # Add secret versions to Secret Manager
+# resource "google_secret_manager_secret_version" "app_secrets_password" {
+#   secret = google_secret_manager_secret.app_secrets.id
+#   secret_data = var.db_password
+# }
 
-# Add secret versions to Secret Manager
-resource "google_secret_manager_secret_version" "app_secrets_connection_string" {
-  secret = google_secret_manager_secret.app_secrets.id
-  secret_data = var.connection_string
-}
 
 # Create Cloud Run service
 resource "google_cloud_run_service" "cloud_run_service" {
@@ -117,12 +122,12 @@ resource "google_cloud_run_service" "cloud_run_service" {
   }
 }
 
-# Grant the Cloud Run service permission to access the secret
-resource "google_cloud_run_service_iam_member" "service_account_secret_access" {
-  service = google_cloud_run_service.cloud_run_service.name
-  location = google_cloud_run_service.cloud_run_service.location
-  project = google_cloud_run_service.cloud_run_service.project
+# # Grant the Cloud Run service permission to access the secret
+# resource "google_cloud_run_service_iam_member" "service_account_secret_access" {
+#   service = google_cloud_run_service.cloud_run_service.name
+#   location = google_cloud_run_service.cloud_run_service.location
+#   project = google_cloud_run_service.cloud_run_service.project
 
-  role = "roles/secretmanager.secretAccessor"
-  member = "serviceAccount:${google_cloud_run_service.cloud_run_service.project}@appspot.gserviceaccount.com"
-}
+#   role = "roles/secretmanager.secretAccessor"
+#   member = "serviceAccount:${google_cloud_run_service.cloud_run_service.project}@appspot.gserviceaccount.com"
+# }

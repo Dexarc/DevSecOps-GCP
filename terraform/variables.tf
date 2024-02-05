@@ -1,10 +1,6 @@
-variable "connection_string" {
-  description = "Database Connection String"
-}
-
-variable "db_password" {
-  description = "Database password"
-}
+# variable "db_password" {
+#   description = "Database password"
+# }
 
 ##passed as env vars from github actions
 variable "gcp_project" {
