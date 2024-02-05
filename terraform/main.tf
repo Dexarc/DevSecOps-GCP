@@ -113,13 +113,18 @@ resource "google_cloud_run_service" "cloud_run_service" {
       containers {
         image = "gcr.io/${var.gcp_project}/your-node-app:latest"
       }
-    }  
-  }
+    }
 
-  traffic {
+    metadata{
+      annotations = {
+        "run.googleapis.com/cloudsql-instances" = google_sql_database_instance.cloud_sql_instance.connection_name
+      }
+    }
+  }
+    traffic {
     percent         = 100
     latest_revision = true
-  }
+    }  
 }
 
 # # Grant the Cloud Run service permission to access the secret
