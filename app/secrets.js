@@ -17,7 +17,7 @@ async function loadDatabaseSecrets() {
     database: {
       user: "dexarc",
       password: await getSecret(databasePasswordSecret),
-      database: "New",
+      database: "my-database",
       socketPath: '/cloudsql/named-archway-413111:us-central1:my-cloud-sql-instance',
     },
   };
