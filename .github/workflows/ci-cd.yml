@@ -82,10 +82,9 @@ jobs:
   #         GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   #       working-directory: terraform
   #       run: terraform apply -auto-approve -var="gcp_project=${GCP_PROJECT_ID}" -var="service_account_key_file=/tmp/gcp_sa_key.json"
-#TEST
 
   deploy_to_cloud_run:
-    needs: tuild_and_push_docker_image
+    needs: build_and_push_docker_image
     runs-on: ubuntu-latest
 
     steps:
