@@ -10,15 +10,15 @@ async function getSecret(name) {
 async function loadDatabaseSecrets() {
   // Replace these values with your actual GitHub secret names
   // const githubSecretProjectId = process.env.GCP_PROJECT_ID || 'GCP_PROJECT_ID';
-  const databaseHostSecret = `projects/876168632127/secrets/your-database-host/versions/1`;
+  // const databaseHostSecret = `projects/876168632127/secrets/your-database-host/versions/1`;
   const databasePasswordSecret = `projects/876168632127/secrets/your-database-password/versions/1`;
 
   return {
     database: {
-      host: await getSecret(databaseHostSecret),
       user: "dexarc",
       password: await getSecret(databasePasswordSecret),
       database: "New",
+      socketPath: '/cloudsql/named-archway-413111:us-central1:my-cloud-sql-instance',
     },
   };
 }

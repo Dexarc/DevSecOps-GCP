@@ -1,51 +1,39 @@
 // index.js
 const express = require('express');
 const loadDatabaseSecrets = require('./secrets.js'); // Assuming loadDatabaseSecrets is the correct function to call
-const mysql = require('mysql2/promise');
+const mysql = require('mysql2');
+const app = express();
+
+app.use(express.json());
+const port = process.env.PORT || 8080;
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
 
 async function startServer() {
-  try {
     const secrets = await loadDatabaseSecrets();
     // Verify that 'secrets' is an object with the 'database' property
-    const { host, user, password, database } = secrets.database;
+    const { user, password, database, socketPath } = secrets.database;
 
     // Create a MySQL connection pool
     const pool = mysql.createPool({
-      host,
       user,
       password,
       database,
-      port: 3306,
-      waitForConnections: true,
-      connectionLimit: 10,
-      queueLimit: 0,
-      
+      socketPath
     });
 
-    const app = express();
-    const PORT = process.env.PORT || 8080;
-
-    // Middleware to parse JSON bodies
-    app.use(express.json());
-
-    // Example REST API endpoint to retrieve data from the database
-    app.get('/', async (req, res) => {
-      try {
-        const [rows] = await pool.execute('SELECT * FROM entries');
-        res.json({ data: rows });
-      } catch (error) {
-        console.error('Error executing database query:', error.message);
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
+    app.get("/", async(req,res) => {
+      const query = "SELECT * FROM entries";
+      pool.query(query, [ req.params.entries ], (error,results) => {
+        if (!results[0]){
+          res.json({status: "Not Found"});
+        }else{
+          res.json(results[0]);
+        }
+      });
     });
-
-    // Start the server
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
-  } catch (error) {
-    console.error('Error loading database secrets:', error.message);
-  }
 }
 
 startServer();
