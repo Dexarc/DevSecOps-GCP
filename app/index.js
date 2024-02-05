@@ -24,13 +24,13 @@ async function startServer() {
       socketPath
     });
 
-    app.get("/", async(req,res) => {
+    app.get("/entries", async(req,res) => {
       const query = "SELECT * FROM entries";
       pool.query(query, [ req.params.entries ], (error,results) => {
-        if (results && results.length > 0) {
+        if (!results[0]){
+          res.json({status: "Not Found"});
+        }else{
           res.json(results[0]);
-        } else {
-          res.json({ status: "Not Found" });
         }
       });
     });
