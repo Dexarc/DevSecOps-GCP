@@ -27,10 +27,10 @@ async function startServer() {
     app.get("/", async(req,res) => {
       const query = "SELECT * FROM entries";
       pool.query(query, [ req.params.entries ], (error,results) => {
-        if (!results[0]){
-          res.json({status: "Not Found"});
-        }else{
+        if (results && results.length > 0) {
           res.json(results[0]);
+        } else {
+          res.json({ status: "Not Found" });
         }
       });
     });
