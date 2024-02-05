@@ -58,7 +58,7 @@ resource "google_sql_database_instance" "cloud_sql_instance" {
   name             = "my-cloud-sql-instance"
   database_version = "MYSQL_8_0"
   region           = "us-central1"  
-  
+  deletion_protection=false
   # network          = google_compute_network.vpc_network.self_link  # Connect to the VPC
 
   settings {
